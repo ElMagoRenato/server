@@ -47,7 +47,7 @@ img {
 <br>
 <br>
 
-<div style="text-align:center; font-size: 1em;">
+<div style="text-align:center; font-size: 5em;">
 
 <a href="./games.html">Games</a>
 <br>
@@ -57,13 +57,6 @@ img {
 <br>
 <br>
 
-<a href="https://github.com/catfoolyou/Website-v2">Website source</a>
-<br>
-<br>
-
-<a href="https://github.com/catfoolyou?tab=repositories">My repos</a>
-<br>
-<br>
 
 <br>
 <br>
@@ -73,35 +66,6 @@ img {
 <br>
 <br>
 
-<br>
-<br>
-
-</div>
-
-<img id="randomImage" src="" alt="Random Image">
-    <script>
-        function getRandomImage() {
-            const images = ['nuts.jpg', 'plane.jpg', 'image.webp', 'buy.png']; 
-            const randomIndex = Math.floor(Math.random() * images.length);
-            return images[randomIndex];
-        }
-
-        function setRandomImage() {
-            const imgFolder = 'img/';
-            const imgElement = document.getElementById('randomImage');
-            const randomImage = getRandomImage();
-            imgElement.src = imgFolder + randomImage;
-        }
-
-        // Set random image on page load
-        setRandomImage();
-
-        // Change image every 24 hours
-        setInterval(setRandomImage, 24 * 60 * 60 * 1000);
-    </script>
-
-<br>
-<br>
 
 <br>
 <br>
