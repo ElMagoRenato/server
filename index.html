@@ -61,8 +61,24 @@
           <button class="main1_ipcopier" onclick="copyText()" type="button">
             <span class="main1_ipcopier_text1">HABILITAR JSPI</span>
             <br>
-            <span class="main1_ipcopier_text2"></span>
+            <span class="main1_ipcopier_text2">!!Click para copiar URL JSPI!!</span>
           </button>
+		<script>
+            function copyText() {
+                navigator.clipboard.writeText
+            ("chrome://flags/#enable-experimental-webassembly-jspi");
+                }
+            $(document).ready(function() {
+            $('.main1_ipcopier').click(function() {
+                var popup = $('<div>', { class: 'main1_popup' })
+                .append($('<h3 class="copy_confirm">').text('Pégalo en el buscador'))
+                $(this).after(popup);
+                setTimeout(function() {
+                popup.remove();
+                }, 1000);
+            });
+            });
+        </script>
 		  </a>
         </div>
         <a href="#more" class="scroll">
