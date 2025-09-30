@@ -115,7 +115,7 @@ a.pixel-link{text-decoration:none;color:inherit;}
 /* Fondo desenfocado */
 .blurred{filter:blur(5px);}
 
-/* Modal Copiar JSPI */
+/* Modal Navegadores */
 .navegadores-content{width:900px;max-width:95%;}
 .navegadores{display:flex;justify-content:center;flex-wrap:wrap;gap:30px;margin-top:20px;}
 .navegador-btn{background:transparent;border:none;cursor:pointer;text-align:center;transition:transform 0.3s;}
@@ -138,30 +138,32 @@ a.pixel-link{text-decoration:none;color:inherit;}
 
 <div class="botonera" id="contenido">
   <!-- Slimefun Wiki -->
-  <a href="https://github.com/Slimefun/Slimefun4/wiki" class="pixel-link">
+  <a href="https://github.com/Slimefun/Slimefun4/wiki" class="pixel-link" target="_blank">
     <button class="pixel-btn">
       <img src="https://i.imgur.com/alOE0wB.png" alt="Slimefun Wiki">
       <span>Slimefun Wiki</span>
     </button>
   </a>
 
-  <!-- Mapa -->
-  <button class="pixel-btn" id="mapaBtn">
-    <img src="https://i.imgur.com/b35b8Eg.gif" alt="Mapa">
-    <span>Mapa</span>
-  </button>
+  <!-- Mapa (abrir en pestaña nueva) -->
+  <a href="http://rf.inf1.linkpc.net:8517/" class="pixel-link" target="_blank">
+    <button class="pixel-btn">
+      <img src="https://static.wikia.nocookie.net/minecraftpocketedition/images/7/73/Map.gif/" alt="Mapa">
+      <span>Mapa</span>
+    </button>
+  </a>
 
-  <!-- Jugar (MISMA PESTAÑA) -->
+  <!-- Jugar (abrir en misma pestaña) -->
   <a href="https://elmagorenato.github.io/server/privado/index" class="pixel-link">
     <button class="pixel-btn">
-      <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/a/a2/TNT_JE3_BE2.png/" alt="JUGAR">
+      <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/a/a2/TNT_JE3_BE2.png/" alt="Jugar">
       <span>JUGAR</span>
     </button>
   </a>
 
   <!-- JSPI -->
   <button class="pixel-btn" id="jspiBtn">
-    <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/9/9e/Minecart_with_Hopper_%28item%29_JE2_BE2.png/" alt="JSPI">
+    <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/f/f1/Minecart_with_Furnace_%28item%29_JE2.png/" alt="JSPI">
     <span>JSPI</span>
   </button>
 
@@ -172,15 +174,7 @@ a.pixel-link{text-decoration:none;color:inherit;}
   </button>
 </div>
 
-<!-- Modal Mapa con iframe -->
-<div id="modalMapa" class="modal">
-  <div class="modal-content" id="modalMapaContent" style="width:1200px; max-width:95%; height:700px;">
-    <span class="cerrar">&times;</span>
-    <iframe id="iframeMapa" src="http://rf.inf1.linkpc.net:8517/" width="100%" height="100%" style="border:none;"></iframe>
-  </div>
-</div>
-
-<!-- Modal Navegadores JSPI -->
+<!-- Modal Navegadores -->
 <div id="modalNavegadores" class="modal">
   <div class="modal-content navegadores-content">
     <span class="cerrar">&times;</span>
@@ -233,48 +227,57 @@ a.pixel-link{text-decoration:none;color:inherit;}
 - Mapa configurado funcional > Falta cambiar las texturas de los bloques.
 - Añadidos cajeros automáticos por las estructuras.
 - Aplanado y naturalizado gran parte del pueblo.
-- Eliminados temporalmente el cartel del logo y de la estatua.
 ----------------------------------------------------------------------------
 [29-09-2025]
 - Cambiada la página web. Añadido mantenimiento del servidor hasta el Miércoles 1 de Octubre.
 - Comenzada la importación de estructuras nuevas para la próxima temporada.
 - Eliminados los NPCs de Imanol e Iván Liaño. Serán recolocados próximamente.
 ----------------------------------------------------------------------------
+
 [25-09-2025]
 - Eliminadas las guías de funcionamiento. Razón: Muy complicadas para cosas simples. Cualquier duda mejor consultada al Administrador.
 [24-09-2025]
 - Cambiados ciertos permisos que no permitían interactuar con algunos objetos nuevos.
 - Extendido el límite 300 bloques de radio.
 ----------------------------------------------------------------------------
-[16-09-2025] (Comienzo Temporada 1)
+
+[16-09-2025]
 - Abierto el servidor para todos los jugadores.
 ----------------------------------------------------------------------------
+
 [21-08-2025] - [25-08-2025]
 - Añadidas las armaduras de cactus y de acero, así como sus texturas.
 ----------------------------------------------------------------------------
+
 [19-08-2025]
 - Añadidas las texturas de las llaves y las redes.
 - Añadidas las texturas de todos los bloques informativos.
 ----------------------------------------------------------------------------
+
 [17-08-2025]
 - Añadidas las llaves y las redes.
 - Añadidas las texturas del Reforzador y Reforza-Core
 ----------------------------------------------------------------------------
+
 [09-08-2025] - [16-08-2025]
 - Añadidos todos los nuevos bloques planteados.
 ----------------------------------------------------------------------------
+
 [05-08-2025]
 - Añadidas minas explosivas a través de un plugin creado a mano. Explotan al tener contacto y/o romper el bloque. Para cofres y hornos, también explotan al hacer click derecho.
 ----------------------------------------------------------------------------
+
 [22-07-2025]
 - Eliminado el antiguo plugin de mochilas y reemplazado por uno nuevo. Texturas nuevas establecidas extraídas del mod "LeatherWorks". Nueva mochila de Ender añadida.
 - Traducido el plugin de los cuerpos al morir.
 ----------------------------------------------------------------------------
+
 [21-07-2025]
 - Traducidas todas las plantas de Slimefun.
 - Finalizada la construcción del Ikea en un mundo aparte.
 - Dibujado y añadido el icono de la "Antorcha en Obsidiana" para el texture pack.
 ----------------------------------------------------------------------------
+
 [19-07-2025]
 - Logo y descripción del antiguo servidor eliminados.
 - Finalizada la creación de la cinemática del evento inicial.
@@ -283,12 +286,14 @@ a.pixel-link{text-decoration:none;color:inherit;}
 - Añadidos los NPCs de Iván Liaño e Imanol con sus respectivos diálogos automatizados con el tiempo.
 - Añadido un límite de mundo de 750 bloques de radio respecto al Spawn.
 ----------------------------------------------------------------------------
+
 [18-07-2025]
 - Importadas configuraciones de los plugins "EssentialsX" y "BettingGames".
 - Finalizada la construcción del casino en un mundo aparte.
 - Finalizada la construcción de la casa de Iván Liaño en un mundo aparte.
 - Añadido Autobús de Batalla para el evento inicial.
 ----------------------------------------------------------------------------
+
 [17-07-2025] 
 - Creado el mundo con el plugin "BiomeBundleReloaded". Versión del Servidor: 1.16.5 / Versión mínima: 1.12.2
 - Importados todos los plugins del servidor INF1MC (x53). Revisados y actualizados en su última versión compatible.
@@ -303,26 +308,6 @@ NOTA: EL SERVIDOR NO SE HACE RESPONSABLE DE LAS CALIFICACIONES DE LOS ALUMNOS NI
 
 <script>
 const contenido = document.getElementById("contenido");
-
-/* ----- Modal Mapa ----- */
-const mapaBtn = document.getElementById("mapaBtn");
-const modalMapa = document.getElementById("modalMapa");
-const modalMapaContent = document.getElementById("modalMapaContent");
-const cerrarMapa = modalMapa.querySelector(".cerrar");
-
-mapaBtn.onclick = () => {
-  modalMapa.style.display = "flex";
-  contenido.classList.add("blurred");
-  setTimeout(() => modalMapaContent.classList.add("show"), 10);
-};
-
-cerrarMapa.onclick = () => {
-  modalMapaContent.classList.remove("show");
-  setTimeout(() => {
-    modalMapa.style.display = "none";
-    contenido.classList.remove("blurred");
-  }, 300);
-};
 
 /* ----- Modal JSPI Navegadores ----- */
 const modalNavegadores=document.getElementById("modalNavegadores");
@@ -371,10 +356,5 @@ cerrarChangelog.onclick=()=>{
   setTimeout(()=>{modalChangelog.style.display="none";contenido.classList.remove("blurred");},300);
 };
 </script>
-
 </body>
 </html>
-
-
-
-
