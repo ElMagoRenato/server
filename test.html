@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Launcher Completo</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+<style>
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: "Open Sans", Helvetica, sans-serif;
+  transition: filter 0.3s ease;
+  background-image: url('https://raw.githubusercontent.com/ElMagoRenato/server/refs/heads/main/media/bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: #fff;
+}
+
+/* Logo flotante */
+.logo {
+  margin-bottom: 40px;
+  max-width: 900px;
+  width: 100%;
+  height: auto;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100%{transform:translateY(0px);}
+  50%{transform:translateY(-15px);}
+}
+
+/* Botonera */
+.botonera{
+  display:flex;
+  gap:25px;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:flex-end;
+}
+
+/* Botones pixel art */
+.pixel-btn{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  text-transform:uppercase;
+  transition:transform 0.3s ease;
+}
+.pixel-btn img{
+  width:80px;
+  height:auto;
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  margin-bottom:6px;
+  transition:transform 0.3s ease;
+}
+.pixel-btn span{
+  color:#fff;
+  font-weight:700;
+  font-size:16px;
+}
+.pixel-btn:hover{transform:translateY(-3px);}
+a.pixel-link{text-decoration:none;color:inherit;}
+
+/* Modal general */
+.modal{
+  display:none;
+  position:fixed;
+  z-index:1000;
+  left:0;top:0;width:100%;height:100%;
+  background-color:rgba(0,0,0,0.4);
+  justify-content:center;
+  align-items:center;
+}
+.modal-content{
+  position:relative;
+  background:#222;
+  padding:40px 60px;
+  border-radius:15px;
+  box-shadow:0 0 20px rgba(0,0,0,0.5);
+  text-align:center;
+  transform:scale(0.8);
+  opacity:0;
+  transition:all 0.4s ease;
+}
+.modal-content.show{transform:scale(1);opacity:1;}
+
+/* Botón cerrar */
+.cerrar{
+  position:absolute;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:40px;height:40px;
+  background:rgba(255,255,255,0.1);
+  border-radius:50%;
+  color:#fff;
+  font-size:28px;
+  cursor:pointer;
+  transition:background 0.3s, transform 0.2s;
+  user-select:none;
+  top:10px;right:15px;
+}
+.cerrar:hover{background:rgba(255,255,255,0.3);transform:scale(1.1);}
+
+/* Fondo desenfocado */
+.blurred{filter:blur(5px);}
+
+/* Modal Copiar JSPI */
+.navegadores-content{width:900px;max-width:95%;}
+.navegadores{display:flex;justify-content:center;flex-wrap:wrap;gap:30px;margin-top:20px;}
+.navegador-btn{background:transparent;border:none;cursor:pointer;text-align:center;transition:transform 0.3s;}
+.navegador-btn img{width:120px;height:auto;margin-bottom:6px;}
+.navegador-btn span{display:block;color:#fff;font-weight:bold;}
+.navegador-btn:hover{transform:translateY(-3px);}
+.copiar-content{width:700px;max-width:95%;}
+.copiar-texto{margin-top:15px;background:#333;padding:10px;border-radius:8px;color:#0f0;font-family:monospace;user-select:all;}
+.copiar-btn{margin-top:15px;padding:10px 20px;background:#2ecc71;border:none;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;transition:background 0.3s;}
+.copiar-btn:hover{background:#27ae60;}
+
+/* Modal Changelog */
+.changelog-content{width:900px;max-width:95%;max-height:80vh;overflow-y:auto;background:#222;color:#fff;}
+.changelog-text{white-space:pre-wrap;font-size:14px;line-height:1.5;color:#eee;text-align:left;}
+</style>
+</head>
+<body>
+
+<img src="https://i.imgur.com/lSIME8x.png" alt="Logo" class="logo">
+
+<div class="botonera" id="contenido">
+  <!-- Slimefun Wiki -->
+  <a href="https://github.com/Slimefun/Slimefun4/wiki" class="pixel-link">
+    <button class="pixel-btn">
+      <img src="https://i.imgur.com/alOE0wB.png" alt="Slimefun Wiki">
+      <span>Slimefun Wiki</span>
+    </button>
+  </a>
+
+  <!-- Mapa -->
+  <button class="pixel-btn" id="mapaBtn">
+    <img src="https://static.wikia.nocookie.net/minecraftpocketedition/images/7/73/Map.gif/revision/latest?cb=20170627214815" alt="Mapa">
+    <span>Mapa</span>
+  </button>
+
+  <!-- Jugar (MISMA PESTAÑA) -->
+  <a href="https://elmagorenato.github.io/server/privado/index" class="pixel-link">
+    <button class="pixel-btn">
+      <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/a/a2/TNT_JE3_BE2.png/" alt="JUGAR">
+      <span>JUGAR</span>
+    </button>
+  </a>
+
+  <!-- JSPI -->
+  <button class="pixel-btn" id="jspiBtn">
+    <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/f/f1/Minecart_with_Furnace_%28item%29_JE2.png/revision/latest?cb=20190910052421" alt="JSPI">
+    <span>JSPI</span>
+  </button>
+
+  <!-- Changelog -->
+  <button class="pixel-btn" id="changelogBtn">
+    <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/e/e9/Book_and_Quill_JE2_BE2.png/revision/latest?cb=20240724193510" alt="Changelog">
+    <span>Changelog</span>
+  </button>
+</div>
+
+<!-- Modal Mapa con iframe -->
+<div id="modalMapa" class="modal">
+  <div class="modal-content" id="modalMapaContent" style="width:1200px; max-width:95%; height:700px;">
+    <span class="cerrar">&times;</span>
+    <iframe id="iframeMapa" src="http://rf.inf1.linkpc.net:8517/" width="100%" height="100%" style="border:none;"></iframe>
+  </div>
+</div>
+
+<!-- Modal Navegadores JSPI -->
+<div id="modalNavegadores" class="modal">
+  <div class="modal-content navegadores-content">
+    <span class="cerrar">&times;</span>
+    <h2>Elige tu navegador</h2>
+    <div class="navegadores">
+      <button class="navegador-btn" data-url="brave://flags/#enable-experimental-webassembly-jspi">
+        <img src="https://img.icons8.com/color/512/brave-web-browser.png" alt="Brave">
+        <span>Brave</span>
+      </button>
+      <button class="navegador-btn" data-url="edge://flags/#enable-experimental-webassembly-features">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Microsoft_Edge_logo_%282019%29.svg" alt="Edge">
+        <span>Edge</span>
+      </button>
+      <button class="navegador-btn" data-url="opera://flags/#enable-experimental-webassembly-jspi">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Opera_2015_icon.svg" alt="Opera">
+        <span>Opera</span>
+      </button>
+      <button class="navegador-btn" data-url="chrome://flags/#enable-experimental-webassembly-jspi">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg" alt="Chrome">
+        <span>Chrome</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Copiar JSPI -->
+<div id="modalCopiar" class="modal">
+  <div class="modal-content copiar-content">
+    <span class="cerrar">&times;</span>
+    <h2>Copiar Flag</h2>
+    <div id="flagTexto" class="copiar-texto"></div>
+    <button class="copiar-btn" id="copiarBtn">Copiar al portapapeles</button>
+  </div>
+</div>
+
+<!-- Modal Changelog -->
+<div id="modalChangelog" class="modal">
+  <div class="modal-content changelog-content">
+    <span class="cerrar">&times;</span>
+    <h2>CHANGELOG</h2>
+    <pre class="changelog-text">
+[30-09-2025] (Comienzo Temporada 2)
+- Añadida la comisaría.
+- Construidos algunos caminos del pueblo/casas.
+- Añadido el casino y sus juegos. Cambiadas las skins de los juegos.
+- Añadido un pequeño puerto.
+- Añadido un laboratorio.
+- Iluminado el pueblo.
+- Página web actualizada en el navegador.
+- Mapa configurado funcional > Falta cambiar las texturas de los bloques.
+- Añadidos cajeros automáticos por las estructuras.
+- Aplanado y naturalizado gran parte del pueblo.
+----------------------------------------------------------------------------
+[29-09-2025]
+- Cambiada la página web. Añadido mantenimiento del servidor hasta el Miércoles 1 de Octubre.
+- Comenzada la importación de estructuras nuevas para la próxima temporada.
+- Eliminados los NPCs de Imanol e Iván Liaño. Serán recolocados próximamente.
+----------------------------------------------------------------------------
+[25-09-2025]
+- Eliminadas las guías de funcionamiento. Razón: Muy complicadas para cosas simples. Cualquier duda mejor consultada al Administrador.
+[24-09-2025]
+- Cambiados ciertos permisos que no permitían interactuar con algunos objetos nuevos.
+- Extendido el límite 300 bloques de radio.
+----------------------------------------------------------------------------
+[16-09-2025] (Comienzo Temporada 1)
+- Abierto el servidor para todos los jugadores.
+----------------------------------------------------------------------------
+[21-08-2025] - [25-08-2025]
+- Añadidas las armaduras de cactus y de acero, así como sus texturas.
+----------------------------------------------------------------------------
+[19-08-2025]
+- Añadidas las texturas de las llaves y las redes.
+- Añadidas las texturas de todos los bloques informativos.
+----------------------------------------------------------------------------
+[17-08-2025]
+- Añadidas las llaves y las redes.
+- Añadidas las texturas del Reforzador y Reforza-Core
+----------------------------------------------------------------------------
+[09-08-2025] - [16-08-2025]
+- Añadidos todos los nuevos bloques planteados.
+----------------------------------------------------------------------------
+[05-08-2025]
+- Añadidas minas explosivas a través de un plugin creado a mano. Explotan al tener contacto y/o romper el bloque. Para cofres y hornos, también explotan al hacer click derecho.
+----------------------------------------------------------------------------
+[22-07-2025]
+- Eliminado el antiguo plugin de mochilas y reemplazado por uno nuevo. Texturas nuevas establecidas extraídas del mod "LeatherWorks". Nueva mochila de Ender añadida.
+- Traducido el plugin de los cuerpos al morir.
+----------------------------------------------------------------------------
+[21-07-2025]
+- Traducidas todas las plantas de Slimefun.
+- Finalizada la construcción del Ikea en un mundo aparte.
+- Dibujado y añadido el icono de la "Antorcha en Obsidiana" para el texture pack.
+----------------------------------------------------------------------------
+[19-07-2025]
+- Logo y descripción del antiguo servidor eliminados.
+- Finalizada la creación de la cinemática del evento inicial.
+- Spawn pulido. Añadida la imagen del dios Iván Liaño.
+- Importada la construcción de la casa de Iván Liaño.
+- Añadidos los NPCs de Iván Liaño e Imanol con sus respectivos diálogos automatizados con el tiempo.
+- Añadido un límite de mundo de 750 bloques de radio respecto al Spawn.
+----------------------------------------------------------------------------
+[18-07-2025]
+- Importadas configuraciones de los plugins "EssentialsX" y "BettingGames".
+- Finalizada la construcción del casino en un mundo aparte.
+- Finalizada la construcción de la casa de Iván Liaño en un mundo aparte.
+- Añadido Autobús de Batalla para el evento inicial.
+----------------------------------------------------------------------------
+[17-07-2025] 
+- Creado el mundo con el plugin "BiomeBundleReloaded". Versión del Servidor: 1.16.5 / Versión mínima: 1.12.2
+- Importados todos los plugins del servidor INF1MC (x53). Revisados y actualizados en su última versión compatible.
+- Seed importada y Spawn establecido.
+- Eliminado el cliente desactualizado (1.12.2) / Añadido el cliente "TuffClient" (1.12.2)
+- Dimensiones del Nether y del End deshabilitadas.
+
+NOTA: EL SERVIDOR NO SE HACE RESPONSABLE DE LAS CALIFICACIONES DE LOS ALUMNOS NI DE SU POSIBLE ADICCIÓN AL JUEGO.
+    </pre>
+  </div>
+</div>
+
+<script>
+const contenido = document.getElementById("contenido");
+
+/* ----- Modal Mapa ----- */
+const mapaBtn = document.getElementById("mapaBtn");
+const modalMapa = document.getElementById("modalMapa");
+const modalMapaContent = document.getElementById("modalMapaContent");
+const cerrarMapa = modalMapa.querySelector(".cerrar");
+
+mapaBtn.onclick = () => {
+  modalMapa.style.display = "flex";
+  contenido.classList.add("blurred");
+  setTimeout(() => modalMapaContent.classList.add("show"), 10);
+};
+
+cerrarMapa.onclick = () => {
+  modalMapaContent.classList.remove("show");
+  setTimeout(() => {
+    modalMapa.style.display = "none";
+    contenido.classList.remove("blurred");
+  }, 300);
+};
+
+/* ----- Modal JSPI Navegadores ----- */
+const modalNavegadores=document.getElementById("modalNavegadores");
+const jspiBtn=document.getElementById("jspiBtn");
+const cerrarNavegadores=modalNavegadores.querySelector(".cerrar");
+const modalCopiar=document.getElementById("modalCopiar");
+const cerrarCopiar=modalCopiar.querySelector(".cerrar");
+const flagTexto=document.getElementById("flagTexto");
+const copiarBtn=document.getElementById("copiarBtn");
+
+jspiBtn.onclick=()=>{
+  modalNavegadores.style.display="flex";
+  contenido.classList.add("blurred");
+  setTimeout(()=>modalNavegadores.querySelector(".modal-content").classList.add("show"),10);
+};
+cerrarNavegadores.onclick=()=>{
+  modalNavegadores.querySelector(".modal-content").classList.remove("show");
+  setTimeout(()=>{modalNavegadores.style.display="none";contenido.classList.remove("blurred");},300);
+};
+document.querySelectorAll(".navegador-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const url=btn.getAttribute("data-url");
+    flagTexto.textContent=url;
+    modalCopiar.style.display="flex";
+    setTimeout(()=>modalCopiar.querySelector(".modal-content").classList.add("show"),10);
+  });
+});
+cerrarCopiar.onclick=()=>{
+  modalCopiar.querySelector(".modal-content").classList.remove("show");
+  setTimeout(()=>{modalCopiar.style.display="none";contenido.classList.remove("blurred");},300);
+};
+copiarBtn.onclick=()=>{navigator.clipboard.writeText(flagTexto.textContent).then(()=>{copiarBtn.textContent="¡Copiado!";setTimeout(()=>copiarBtn.textContent="Copiar al portapapeles",2000);});};
+
+/* ----- Modal Changelog ----- */
+const changelogBtn=document.getElementById("changelogBtn");
+const modalChangelog=document.getElementById("modalChangelog");
+const cerrarChangelog=modalChangelog.querySelector(".cerrar");
+
+changelogBtn.onclick=()=>{
+  modalChangelog.style.display="flex";
+  contenido.classList.add("blurred");
+  setTimeout(()=>modalChangelog.querySelector(".modal-content").classList.add("show"),10);
+};
+cerrarChangelog.onclick=()=>{
+  modalChangelog.querySelector(".modal-content").classList.remove("show");
+  setTimeout(()=>{modalChangelog.style.display="none";contenido.classList.remove("blurred");},300);
+};
+</script>
+
+</body>
+</html>
