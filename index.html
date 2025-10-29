@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Launcher</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+<style>
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: "Open Sans", Helvetica, sans-serif;
+  transition: filter 0.3s ease;
+  background-image: url('https://raw.githubusercontent.com/ElMagoRenato/server/refs/heads/main/media/bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: #fff;
+  position: relative; /* Para posicionar el botón Slimefun */
+}
+
+/* Banner de mantenimiento */
+.banner-mantenimiento {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background: linear-gradient(90deg, #ff4444, #cc0000);
+  color: white;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.texto-mantenimiento {
+  position: absolute;
+  white-space: nowrap;
+  font-weight: bold;
+  font-size: 14px;
+  animation: desplazar-texto-1 40s linear infinite;
+  padding: 0 20px;
+}
+
+.texto-mantenimiento-2 {
+  position: absolute;
+  white-space: nowrap;
+  font-weight: bold;
+  font-size: 14px;
+  animation: desplazar-texto-2 40s linear infinite;
+  padding: 0 20px;
+}
+
+@keyframes desplazar-texto-1 {
+  0% {
+    transform: translateX(100vw);
+  }
+  50% {
+    transform: translateX(-100%);
+  }
+  50.1% {
+    transform: translateX(100vw);
+  }
+  100% {
+    transform: translateX(100vw);
+  }
+}
+
+@keyframes desplazar-texto-2 {
+  0% {
+    transform: translateX(100vw);
+  }
+  50% {
+    transform: translateX(100vw);
+  }
+  50.1% {
+    transform: translateX(100vw);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Ajustar el contenido principal para el banner */
+body::before {
+  content: '';
+  display: block;
+  height: 30px;
+  width: 100%;
+}
+
+/* Logo flotante */
+.logo {
+  margin-bottom: 40px;
+  max-width: 900px;
+  width: 100%;
+  height: auto;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100%{transform:translateY(0px);}
+  50%{transform:translateY(-15px);}
+}
+
+/* Botonera */
+.botonera{
+  display:flex;
+  gap:25px;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:flex-end;
+}
+
+/* Botones pixel art - CENTRALES MÁS GRANDES */
+.pixel-btn{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  text-transform:uppercase;
+  transition:transform 0.3s ease;
+}
+.pixel-btn img{
+  width:80px; /* Tamaño base para botones centrales */
+  height:auto;
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  margin-bottom:6px;
+  transition:transform 0.3s ease;
+}
+.pixel-btn span{
+  color:#fff;
+  font-weight:700;
+  font-size:16px;
+}
+.pixel-btn:hover{transform:translateY(-3px);}
+a.pixel-link{text-decoration:none;color:inherit;}
+
+/* Botones centrales más grandes */
+.botonera .pixel-btn img {
+  width: 100px; /* Botones centrales más grandes */
+}
+
+/* Botón Slimefun en esquina superior derecha - MÁS PEQUEÑO */
+.slimefun-corner {
+  position: absolute;
+  top: 50px; /* Ajustado por el banner */
+  right: 20px;
+}
+
+.slimefun-corner .pixel-btn img {
+  width: 60px; /* Botón Slimefun más pequeño */
+}
+
+.slimefun-corner .pixel-btn span {
+  font-size: 14px; /* Texto más pequeño para Slimefun */
+}
+
+/* Sección de Noticias */
+.noticias-section {
+  position: absolute;
+  top: 50px; /* Ajustado por el banner */
+  left: 20px;
+  width: 350px; /* Más grande */
+}
+
+.noticias-titulo {
+  width: 250px; /* Más grande */
+  margin-bottom: 15px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.carrusel {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  padding: 15px; /* Menos padding vertical */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px; /* Espacio para la cuenta atrás */
+}
+
+.contenedor-imagenes {
+  position: relative;
+  width: 100%;
+  height: 200px; /* Altura aumentada para evitar corte vertical */
+  overflow: hidden;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carrusel-imagen {
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain; /* Para que la imagen se ajuste sin cortarse */
+  border-radius: 5px;
+  transition: transform 0.6s ease-in-out;
+}
+
+.carrusel-imagen.activa {
+  transform: translateX(0);
+  z-index: 2;
+}
+
+.carrusel-imagen.siguiente {
+  transform: translateX(100%);
+  z-index: 1;
+}
+
+.carrusel-imagen.anterior {
+  transform: translateX(-100%);
+  z-index: 1;
+}
+
+.indicadores {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.punto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.punto.activo {
+  background-color: white;
+  transform: scale(1.2);
+}
+
+/* Cuenta atrás nueva temporada */
+.cuenta-atras {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  width: 350px;
+  text-align: center;
+}
+
+.cuenta-atras-titulo {
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+
+.contador {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tiempo-unidad {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 5px;
+}
+
+.tiempo-numero {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2ecc71;
+  margin-bottom: 5px;
+}
+
+.tiempo-texto {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+}
+
+/* Crédito del autor */
+.credito-autor {
+  position: absolute;
+  bottom: 15px;
+  right: 20px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.credito-autor:hover {
+  opacity: 1;
+}
+
+/* Modal general */
+.modal{
+  display:none;
+  position:fixed;
+  z-index:1000;
+  left:0;top:0;width:100%;height:100%;
+  background-color:rgba(0,0,0,0.4);
+  justify-content:center;
+  align-items:center;
+}
+.modal-content{
+  position:relative;
+  background:#222;
+  padding:40px 60px;
+  border-radius:15px;
+  box-shadow:0 0 20px rgba(0,0,0,0.5);
+  text-align:center;
+  transform:scale(0.8);
+  opacity:0;
+  transition:all 0.4s ease;
+}
+.modal-content.show{transform:scale(1);opacity:1;}
+
+/* Botón cerrar */
+.cerrar{
+  position:absolute;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:40px;height:40px;
+  background:rgba(255,255,255,0.1);
+  border-radius:50%;
+  color:#fff;
+  font-size:28px;
+  cursor:pointer;
+  transition:background 0.3s, transform 0.2s;
+  user-select:none;
+  top:10px;right:15px;
+}
+.cerrar:hover{background:rgba(255,255,255,0.3);transform:scale(1.1);}
+
+/* Fondo desenfocado */
+.blurred{filter:blur(5px);}
+
+/* Modal Navegadores */
+.navegadores-content{width:900px;max-width:95%;}
+.navegadores{display:flex;justify-content:center;flex-wrap:wrap;gap:30px;margin-top:20px;}
+.navegador-btn{background:transparent;border:none;cursor:pointer;text-align:center;transition:transform 0.3s;}
+.navegador-btn img{width:120px;height:auto;margin-bottom:6px;}
+.navegador-btn span{display:block;color:#fff;font-weight:bold;}
+.navegador-btn:hover{transform:translateY(-3px);}
+.copiar-content{width:700px;max-width:95%;}
+.copiar-texto{margin-top:15px;background:#333;padding:10px;border-radius:8px;color:#0f0;font-family:monospace;user-select:all;}
+.copiar-btn{margin-top:15px;padding:10px 20px;background:#2ecc71;border:none;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;transition:background 0.3s;}
+.copiar-btn:hover{background:#27ae60;}
+</style>
+</head>
+<body>
+
+<!-- Banner de mantenimiento -->
+<div class="banner-mantenimiento">
+  <div class="texto-mantenimiento">
+    ⚠ MANTENIMIENTO PROGRAMADO DESDE EL SÁBADO 1 DE NOVIEMBRE HASTA EL MIÉRCOLES 5 DE NOVIEMBRE ⚠
+  </div>
+  <div class="texto-mantenimiento-2">
+    ⚠ MANTENIMIENTO PROGRAMADO DESDE EL SÁBADO 1 DE NOVIEMBRE HASTA EL MIÉRCOLES 5 DE NOVIEMBRE ⚠
+  </div>
+</div>
+
+<img src="https://i.imgur.com/lSIME8x.png" alt="Logo" class="logo">
+
+<!-- Sección de Noticias -->
+<div class="noticias-section">
+  <img src="https://i.imgur.com/MSDtOp7.png" alt="NOTICIAS" class="noticias-titulo">
+  <div class="carrusel">
+    <div class="contenedor-imagenes" id="contenedor-imagenes">
+      <!-- Las imágenes se generarán con JavaScript -->
+    </div>
+    <div class="indicadores" id="indicadores">
+      <!-- Los puntos se generarán con JavaScript -->
+    </div>
+  </div>
+
+  <!-- Cuenta atrás nueva temporada -->
+  <div class="cuenta-atras">
+    <div class="cuenta-atras-titulo">COMIENZO NUEVA TEMPORADA</div>
+    <div class="contador" id="contador">
+      <div class="tiempo-unidad">
+        <div class="tiempo-numero" id="dias">00</div>
+        <div class="tiempo-texto">Días</div>
+      </div>
+      <div class="tiempo-unidad">
+        <div class="tiempo-numero" id="horas">00</div>
+        <div class="tiempo-texto">Horas</div>
+      </div>
+      <div class="tiempo-unidad">
+        <div class="tiempo-numero" id="minutos">00</div>
+        <div class="tiempo-texto">Minutos</div>
+      </div>
+      <div class="tiempo-unidad">
+        <div class="tiempo-numero" id="segundos">00</div>
+        <div class="tiempo-texto">Segundos</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Botón Slimefun en esquina superior derecha -->
+<div class="slimefun-corner">
+  <a href="https://github.com/Slimefun/Slimefun4/wiki" class="pixel-link" target="_blank">
+    <button class="pixel-btn">
+      <img src="https://i.imgur.com/alOE0wB.png" alt="Slimefun Wiki">
+      <span>Slimefun Wiki</span>
+    </button>
+  </a>
+</div>
+
+<!-- Botonera con los tres botones centrados -->
+<div class="botonera" id="contenido">
+  <!-- Mapa (abrir en pestaña nueva) -->
+  <a href="http://rf.inf1.linkpc.net:8517/" class="pixel-link" target="_blank">
+    <button class="pixel-btn">
+      <img src="https://static.wikia.nocookie.net/minecraftpocketedition/images/7/73/Map.gif/" alt="Mapa">
+      <span>Mapa</span>
+    </button>
+  </a>
+
+  <!-- Jugar (abrir en misma pestaña) -->
+  <a href="https://elmagorenato.github.io/server/privado/index" class="pixel-link">
+    <button class="pixel-btn">
+      <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/a/a2/TNT_JE3_BE2.png/" alt="Jugar">
+      <span>JUGAR</span>
+    </button>
+  </a>
+
+  <!-- JSPI -->
+  <button class="pixel-btn" id="jspiBtn">
+    <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/f/f1/Minecart_with_Furnace_%28item%29_JE2.png/" alt="JSPI">
+    <span>JSPI</span>
+  </button>
+</div>
+
+<!-- Crédito del autor -->
+<div class="credito-autor">@ELMR</div>
+
+<!-- Modal Navegadores -->
+<div id="modalNavegadores" class="modal">
+  <div class="modal-content navegadores-content">
+    <span class="cerrar">&times;</span>
+    <h2>Elige tu navegador</h2>
+    <div class="navegadores">
+      <button class="navegador-btn" data-url="brave://flags/#enable-experimental-webassembly-jspi">
+        <img src="https://img.icons8.com/color/512/brave-web-browser.png" alt="Brave">
+        <span>Brave</span>
+      </button>
+      <button class="navegador-btn" data-url="edge://flags/#enable-experimental-webassembly-features">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Microsoft_Edge_logo_%282019%29.svg" alt="Edge">
+        <span>Edge</span>
+      </button>
+      <button class="navegador-btn" data-url="opera://flags/#enable-experimental-webassembly-jspi">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Opera_2015_icon.svg" alt="Opera">
+        <span>Opera</span>
+      </button>
+      <button class="navegador-btn" data-url="chrome://flags/#enable-experimental-webassembly-jspi">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg" alt="Chrome">
+        <span>Chrome</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Copiar JSPI -->
+<div id="modalCopiar" class="modal">
+  <div class="modal-content copiar-content">
+    <span class="cerrar">&times;</span>
+    <h2>Copiar Flag</h2>
+    <div id="flagTexto" class="copiar-texto"></div>
+    <button class="copiar-btn" id="copiarBtn">Copiar al portapapeles</button>
+  </div>
+</div>
+
+<script>
+const contenido = document.getElementById("contenido");
+
+/* ----- Carrusel de Noticias ----- */
+const imagenesNoticias = [
+  "https://i.imgur.com/fOy65Bm.png",
+  "https://i.imgur.com/U1Lbb0i.png", 
+  "https://i.imgur.com/NWEItBa.png"
+];
+
+let imagenActual = 0;
+let estaTransicionando = false;
+const contenedorImagenes = document.getElementById('contenedor-imagenes');
+const indicadoresContainer = document.getElementById('indicadores');
+
+// Crear todas las imágenes del carrusel
+imagenesNoticias.forEach((src, index) => {
+  const img = document.createElement('img');
+  img.src = src;
+  img.classList.add('carrusel-imagen');
+  img.alt = `Noticia ${index + 1}`;
+  
+  if (index === 0) {
+    img.classList.add('activa');
+  } else {
+    img.classList.add('siguiente');
+  }
+  
+  contenedorImagenes.appendChild(img);
+});
+
+// Inicializar indicadores (solo 3 puntos)
+imagenesNoticias.forEach((_, index) => {
+  const punto = document.createElement('div');
+  punto.classList.add('punto');
+  if (index === 0) punto.classList.add('activo');
+  
+  punto.addEventListener('click', () => {
+    if (!estaTransicionando && index !== imagenActual) {
+      cambiarImagen(index);
+    }
+  });
+  
+  indicadoresContainer.appendChild(punto);
+});
+
+// Función para cambiar imagen con swipe simultáneo
+function cambiarImagen(nuevoIndice) {
+  if (estaTransicionando) return;
+  
+  estaTransicionando = true;
+  const imagenes = document.querySelectorAll('.carrusel-imagen');
+  const imagenAnterior = imagenes[imagenActual];
+  const imagenNueva = imagenes[nuevoIndice];
+  
+  // Determinar dirección
+  const esSiguiente = nuevoIndice > imagenActual || (nuevoIndice === 0 && imagenActual === imagenes.length - 1);
+  
+  // Posicionar la nueva imagen según la dirección
+  if (esSiguiente) {
+    imagenNueva.classList.remove('anterior', 'siguiente');
+    imagenNueva.classList.add('siguiente');
+  } else {
+    imagenNueva.classList.remove('anterior', 'siguiente');
+    imagenNueva.classList.add('anterior');
+  }
+  
+  // Animar ambas imágenes simultáneamente
+  setTimeout(() => {
+    if (esSiguiente) {
+      imagenAnterior.classList.remove('activa');
+      imagenAnterior.classList.add('anterior');
+      imagenNueva.classList.remove('siguiente');
+      imagenNueva.classList.add('activa');
+    } else {
+      imagenAnterior.classList.remove('activa');
+      imagenAnterior.classList.add('siguiente');
+      imagenNueva.classList.remove('anterior');
+      imagenNueva.classList.add('activa');
+    }
+  }, 10);
+  
+  // Actualizar indicadores inmediatamente
+  document.querySelectorAll('.punto').forEach((punto, i) => {
+    if (i === nuevoIndice) {
+      punto.classList.add('activo');
+    } else {
+      punto.classList.remove('activo');
+    }
+  });
+  
+  // Finalizar transición
+  setTimeout(() => {
+    imagenActual = nuevoIndice;
+    estaTransicionando = false;
+  }, 600);
+}
+
+// Cambio automático cada 5 segundos
+setInterval(() => {
+  if (!estaTransicionando) {
+    const siguienteImagen = (imagenActual + 1) % imagenesNoticias.length;
+    cambiarImagen(siguienteImagen);
+  }
+}, 5000);
+
+/* ----- Cuenta atrás nueva temporada ----- */
+function actualizarCuentaAtras() {
+  // Fecha objetivo: 5 de noviembre de 2025, 8:30 AM hora española
+  const fechaObjetivo = new Date('2025-11-05T08:30:00+01:00');
+  const ahora = new Date();
+  
+  const diferencia = fechaObjetivo - ahora;
+  
+  if (diferencia <= 0) {
+    document.getElementById('dias').textContent = '00';
+    document.getElementById('horas').textContent = '00';
+    document.getElementById('minutos').textContent = '00';
+    document.getElementById('segundos').textContent = '00';
+    return;
+  }
+  
+  const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+  const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+  
+  document.getElementById('dias').textContent = dias.toString().padStart(2, '0');
+  document.getElementById('horas').textContent = horas.toString().padStart(2, '0');
+  document.getElementById('minutos').textContent = minutos.toString().padStart(2, '0');
+  document.getElementById('segundos').textContent = segundos.toString().padStart(2, '0');
+}
+
+// Actualizar cada segundo
+setInterval(actualizarCuentaAtras, 1000);
+actualizarCuentaAtras(); // Ejecutar inmediatamente
+
+/* ----- Modal JSPI Navegadores ----- */
+const modalNavegadores=document.getElementById("modalNavegadores");
+const jspiBtn=document.getElementById("jspiBtn");
+const cerrarNavegadores=modalNavegadores.querySelector(".cerrar");
+const modalCopiar=document.getElementById("modalCopiar");
+const cerrarCopiar=modalCopiar.querySelector(".cerrar");
+const flagTexto=document.getElementById("flagTexto");
+const copiarBtn=document.getElementById("copiarBtn");
+
+jspiBtn.onclick=()=>{
+  modalNavegadores.style.display="flex";
+  contenido.classList.add("blurred");
+  setTimeout(()=>modalNavegadores.querySelector(".modal-content").classList.add("show"),10);
+};
+cerrarNavegadores.onclick=()=>{
+  modalNavegadores.querySelector(".modal-content").classList.remove("show");
+  setTimeout(()=>{modalNavegadores.style.display="none";contenido.classList.remove("blurred");},300);
+};
+document.querySelectorAll(".navegador-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const url=btn.getAttribute("data-url");
+    flagTexto.textContent=url;
+    modalCopiar.style.display="flex";
+    setTimeout(()=>modalCopiar.querySelector(".modal-content").classList.add("show"),10);
+  });
+});
+cerrarCopiar.onclick=()=>{
+  modalCopiar.querySelector(".modal-content").classList.remove("show");
+  setTimeout(()=>{modalCopiar.style.display="none";contenido.classList.remove("blurred");},300);
+};
+copiarBtn.onclick=()=>{navigator.clipboard.writeText(flagTexto.textContent).then(()=>{copiarBtn.textContent="¡Copiado!";setTimeout(()=>copiarBtn.textContent="Copiar al portapapeles",2000);});};
+</script>
+</body>
+</html>
