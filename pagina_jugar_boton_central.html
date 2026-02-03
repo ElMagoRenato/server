@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jugar</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1a1a1a;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .boton-jugar {
+            background-color: white;
+            color: black;
+            font-size: 24px;
+            padding: 20px 50px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .boton-jugar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <button class="boton-jugar" onclick="window.location.href='https://elmagorenato.github.io/server/privado/index'">
+        Jugar
+    </button>
+</body>
+</html>
